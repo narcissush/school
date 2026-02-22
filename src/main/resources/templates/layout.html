@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${title != null ? title + ' - ' : ''} + 'سیستم مدیریت'">سیستم مدیریت</title>
+    <title th:text="${title != null ? title + ' - ' : ''} + 'سیستم آموزشی'">سیستم آموزشی</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
@@ -11,84 +11,103 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             direction: rtl;
             text-align: right;
+            background-color: #f8f9fa;
         }
-        .navbar-brand {
-            font-weight: bold;
-        }
-        .main-content {
-            min-height: calc(100vh - 56px);
-        }
-        .alert {
-            margin-top: 1rem;
-        }
+        .navbar-brand { font-weight: bold; }
+        .main-content { min-height: calc(100vh - 56px); }
+        .alert { margin-top: 1rem; }
+        .sidebar { min-width: 200px; background-color: #fff; border-radius: 5px; padding: 15px; margin-right: 15px; height: calc(100vh - 56px); }
+        .sidebar a { display: block; padding: 8px; color: #333; text-decoration: none; border-radius: 4px; margin-bottom: 5px; }
+        .sidebar a:hover { background-color: #e9ecef; }
+        .submenu a { padding-left: 20px; }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/dashboard">
-                <i class="bi bi-shield-lock"></i> سیستم مدیریت
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/dashboard">
-                            <i class="bi bi-house"></i> داشبورد
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/persons">
-                            <i class="bi bi-people"></i> اشخاص
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/simcards">
-                            <i class="bi bi-sim"></i> سیم کارت‌ها
-                        </a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle"></i> <span sec:authentication="name"></span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <form th:action="@{/logout}" method="post" style="display: inline;">
-                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                                    <button type="submit" class="dropdown-item" style="border: none; background: none; width: 100%; text-align: right;">
-                                        <i class="bi bi-box-arrow-right"></i> خروج
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="main-content p-4">
-                    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
-                        <i class="bi bi-check-circle"></i> <span th:text="${success}"></span>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="bi bi-exclamation-triangle"></i> <span th:text="${error}"></span>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                    <div th:replace="${content}"></div>
-                </div>
-            </div>
+        <a class="navbar-brand" th:href="@{/dashboard}">
+            <i class="bi bi-shield-lock"></i> سیستم آموزشی
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/dashboard}"><i class="bi bi-house"></i> داشبورد</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/courses}"><i class="bi bi-journal-bookmark"></i> دوره‌ها</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/lessons}"><i class="bi bi-book"></i> درس‌ها</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/teachers}"><i class="bi bi-person-badge"></i> اساتید</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/students}"><i class="bi bi-people"></i> دانشجویان</a></li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle"></i> <span sec:authentication="name"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <form th:action="@{/logout}" method="post" style="display:inline;">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                <button type="submit" class="dropdown-item" style="border:none; background:none; width:100%; text-align:right;">
+                                    <i class="bi bi-box-arrow-right"></i> خروج
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
+</nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<div class="container-fluid d-flex">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a th:href="@{/dashboard}">🏠 داشبورد</a>
+
+        <a data-bs-toggle="collapse" href="#menuCourses">📚 مدیریت دوره‌ها</a>
+        <div class="collapse submenu" id="menuCourses">
+            <a th:href="@{/courses}">لیست دوره‌ها</a>
+            <a th:href="@{/lessons}">لیست درس‌ها</a>
+            <a th:href="@{/class-sessions}">زمان‌بندی کلاس‌ها</a>
+        </div>
+
+        <a data-bs-toggle="collapse" href="#menuSkills">🛠 مهارت‌ها</a>
+        <div class="collapse submenu" id="menuSkills">
+            <a th:href="@{/skills}">لیست مهارت‌ها</a>
+            <a th:href="@{/teacher-skills}">مهارت استادها</a>
+        </div>
+
+        <a data-bs-toggle="collapse" href="#menuLicenses">📜 گواهینامه‌ها</a>
+        <div class="collapse submenu" id="menuLicenses">
+            <a th:href="@{/student-licenses}">گواهینامه دانشجو</a>
+            <a th:href="@{/teacher-licenses}">گواهینامه استاد</a>
+        </div>
+
+        <a data-bs-toggle="collapse" href="#menuExperience">💼 تجربه‌ها</a>
+        <div class="collapse submenu" id="menuExperience">
+            <a th:href="@{/teacher-experience}">تجربه استاد</a>
+            <a th:href="@{/student-experience}">تجربه دانشجو</a>
+        </div>
+
+        <a href="#">⚙️ تنظیمات</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content flex-grow-1 p-4">
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:replace="${content}"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
