@@ -31,7 +31,7 @@ public class TeacherController {
         List<TeacherUpdateDto> teachers = teacherService.findAll();
         model.addAttribute("teachers", teachers);
         model.addAttribute("title", "لیست اساتید");
-        return "teacher/list";
+        return "teacher/new-teacher";
     }
 
     // ---------------- فرم ایجاد استاد ----------------

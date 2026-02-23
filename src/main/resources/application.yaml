@@ -1,18 +1,28 @@
 spring:
   application:
     name: school
-  
-datasource:
-  url: jdbc:h2:mem:db
-  driver-class-name: org.h2.Driver
-  username: sa
-  password:
 
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
 
-  hibernate:
-    ddl-auto: create
+    datasource:
+      url: jdbc:h2:mem:db
+      driver-class-name: org.h2.Driver
+      username: sa
+      password:
+
+    jpa:
+      database-platform: org.hibernate.dialect.H2Dialect
+
+    hibernate:
+      ddl-auto: create
+
+
+    thymeleaf:
+      mode: HTML
+      prefix: classpath:/templates/
+      suffix: .html
+      cache: false
+      encoding: utf-8
+
 
 
 
