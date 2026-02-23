@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,13 +13,15 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "persons")
+@MappedSuperclass
+
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Person {
+
+public abstract class Person {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,14 +50,16 @@ public class Person {
     @Pattern(regexp = "^09[0-9]{9}$", message = "شماره موبایل معتبر نیست")
     @Column(length = 11)
     private String mobile;
-    
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
-    
+
     @OneToOne(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
     private User user;
-    
+
+
     @Column(nullable = false)
     private Boolean active = true;
     
