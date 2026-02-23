@@ -1,96 +1,61 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:replace="~{layout :: layout(~{::content})}">
 <body>
-<div th:fragment="content">
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold">
-            <i class="bi bi-speedometer2"></i> داشبورد آموزشی
-        </h2>
-        <span class="text-muted">
-            خوش آمدید،
-            <strong th:text="${username}">admin</strong>
-        </span>
+    <div th:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="bi bi-speedometer2"></i> داشبورد</h2>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="card text-white bg-primary">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="card-title">خوش آمدید</h5>
+                                <p class="card-text" th:text="${username}">کاربر</p>
+                            </div>
+                            <i class="bi bi-person-circle" style="font-size: 3rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-3">
+                <div class="card text-white bg-success">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="card-title">اشخاص</h5>
+                                <p class="card-text">مدیریت اشخاص</p>
+                            </div>
+                            <i class="bi bi-people" style="font-size: 3rem;"></i>
+                        </div>
+                        <a href="/persons" class="btn btn-light btn-sm mt-2">
+                            <i class="bi bi-arrow-left"></i> مشاهده
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-3">
+                <div class="card text-white bg-info">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="card-title">سیم کارت‌ها</h5>
+                                <p class="card-text">مدیریت سیم کارت‌ها</p>
+                            </div>
+                            <i class="bi bi-sim" style="font-size: 3rem;"></i>
+                        </div>
+                        <a href="/simcards" class="btn btn-light btn-sm mt-2">
+                            <i class="bi bi-arrow-left"></i> مشاهده
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <!-- کارت‌ها -->
-    <div class="row g-4">
-
-        <!-- دانشجویان -->
-        <div class="col-lg-3 col-md-6">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body text-center">
-                    <i class="bi bi-people-fill text-primary" style="font-size: 2.5rem;"></i>
-                    <h5 class="mt-3">دانشجویان</h5>
-                    <p class="text-muted small">مدیریت دانشجویان ثبت‌نام شده</p>
-                    <a th:href="@{/students}" class="btn btn-primary btn-sm">مشاهده</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- اساتید -->
-        <div class="col-lg-3 col-md-6">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body text-center">
-                    <i class="bi bi-person-badge-fill text-success" style="font-size: 2.5rem;"></i>
-                    <h5 class="mt-3">اساتید</h5>
-                    <p class="text-muted small">مدیریت اساتید آموزشگاه</p>
-                    <a th:href="@{/teachers}" class="btn btn-success btn-sm">مشاهده</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- دوره‌ها -->
-        <div class="col-lg-3 col-md-6">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body text-center">
-                    <i class="bi bi-journal-bookmark-fill text-warning" style="font-size: 2.5rem;"></i>
-                    <h5 class="mt-3">دوره‌ها و کلاس‌ها</h5>
-                    <p class="text-muted small">مدیریت دوره‌ها و زمان‌بندی کلاس‌ها</p>
-                    <a th:href="@{/courses}" class="btn btn-warning btn-sm text-white">مشاهده</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- مهارت‌ها -->
-        <div class="col-lg-3 col-md-6">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body text-center">
-                    <i class="bi bi-tools text-secondary" style="font-size: 2.5rem;"></i>
-                    <h5 class="mt-3">مهارت‌ها</h5>
-                    <p class="text-muted small">مدیریت مهارت اساتید</p>
-                    <a th:href="@{/skills}" class="btn btn-secondary btn-sm">مشاهده</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- گواهینامه‌ها -->
-        <div class="col-lg-3 col-md-6">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body text-center">
-                    <i class="bi bi-award-fill text-danger" style="font-size: 2.5rem;"></i>
-                    <h5 class="mt-3">گواهینامه‌ها</h5>
-                    <p class="text-muted small">مدیریت لایسنس و مدارک</p>
-                    <a th:href="@{/student-licenses}" class="btn btn-danger btn-sm">مشاهده</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- تجربه‌ها -->
-        <div class="col-lg-3 col-md-6">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body text-center">
-                    <i class="bi bi-briefcase-fill text-info" style="font-size: 2.5rem;"></i>
-                    <h5 class="mt-3">تجربه‌ها</h5>
-                    <p class="text-muted small">تجربه‌های استاد و دانشجو</p>
-                    <a th:href="@{/experiences}" class="btn btn-info btn-sm text-white">مشاهده</a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-</div>
 </body>
 </html>

@@ -32,7 +32,7 @@ public class Teacher extends Person {
 //
 //    @OneToMany(mappedBy = "teacher")
 //    private List<CourseSchedule> courseScheduleList;
-
+//
 //    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Experience> experienceList;
 

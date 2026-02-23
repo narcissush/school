@@ -19,7 +19,7 @@ public class Student extends Person {
 
 //    @OneToMany(mappedBy = "student")
 //    private List<Course> courseList;
-
+//
 //    @OneToMany(mappedBy = "student")
 //    private List<License> licenseList;
 

@@ -1,0 +1,124 @@
+/* Reset & Base */
+body {
+    margin: 0;
+    font-family: 'Tahoma', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Topbar */
+.topbar {
+    background-color: #1f2937; /* تیره‌تر و مدرن */
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.topbar .navbar-brand {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.topbar .text-white {
+    font-size: 14px;
+}
+
+.topbar .dropdown-toggle::after {
+    margin-left: 0.5rem;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 240px;
+    background-color: #111827;
+    min-height: 100vh;
+    padding-top: 20px;
+    position: sticky;
+    top: 0;
+}
+
+.sidebar a {
+    display: block;
+    color: #e5e7eb;
+    padding: 12px 20px;
+    text-decoration: none;
+    border-radius: 6px;
+    margin: 2px 10px;
+    transition: all 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #2563eb;
+    color: #fff;
+}
+
+.submenu a {
+    padding-right: 40px;
+    font-size: 14px;
+    background-color: #1f2937;
+}
+
+.submenu a:hover {
+    background-color: #3b82f6;
+}
+
+/* Content */
+main {
+    flex: 1;
+    padding: 30px;
+    background-color: #f3f4f6;
+}
+
+/* Panels */
+.panel {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+}
+
+.panel:hover {
+    transform: translateY(-3px);
+}
+
+.panel-header {
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #111827;
+}
+
+.panel-body {
+    font-size: 14px;
+    color: #374151;
+}
+
+/* Stats */
+.stat {
+    color: #fff;
+    border-radius: 8px;
+    padding: 15px 10px;
+    text-align: center;
+    font-size: 14px;
+    transition: transform 0.2s;
+}
+
+.stat:hover {
+    transform: translateY(-2px);
+}
+
+.stat b {
+    display: block;
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+.red { background: #ef4444; }
+.orange { background: #f97316; }
+.blue { background: #3b82f6; }
+.purple { background: #8b5cf6; }
+.green { background: #10b981; }
