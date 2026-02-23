@@ -1,12 +1,11 @@
 package com.mftplus.school.course.service;
 
+import com.mftplus.school.core.repository.TeacherRepository;
 import com.mftplus.school.course.dto.ScheduleCreateDto;
 import com.mftplus.school.course.dto.ScheduleUpdateDto;
 import com.mftplus.school.course.exception.ResourceNotFoundException;
 import com.mftplus.school.course.mapper.ScheduleMapper;
-import com.mftplus.school.course.model.Course;
 import com.mftplus.school.course.model.Schedule;
-import com.mftplus.school.course.repository.CourseRepository;
 import com.mftplus.school.course.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,7 @@ public class ScheduleServiceImp implements ScheduleService {
 
     @Override
     public ScheduleCreateDto create(ScheduleCreateDto dto) {
-        Schedule schedule = scheduleMapper.toEntity(dto);
+        Schedule schedule = scheduleMapper.toCreateEntity(dto);
 
         // بررسی استاد
         teacherRepository.findById(dto.getTeacherId())
@@ -34,7 +33,7 @@ public class ScheduleServiceImp implements ScheduleService {
         schedule.validateTimes(); // اعتبارسنجی زمان‌ها
 
         Schedule saved = scheduleRepository.save(schedule);
-        return scheduleMapper.toDto(saved);
+        return scheduleMapper.toCreateDto(saved);
     }
 
     @Override

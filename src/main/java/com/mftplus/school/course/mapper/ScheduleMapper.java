@@ -8,8 +8,8 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface ScheduleMapper {
 
-    public Schedule toEntity(ScheduleCreateDto scheduleCreateDto);
-    public ScheduleCreateDto toDto(Schedule schedule) ;
+    public Schedule toCreateEntity(ScheduleCreateDto scheduleCreateDto);
+    public ScheduleCreateDto toCreateDto(Schedule schedule) ;
     public Schedule toUpdateEntity(ScheduleUpdateDto scheduleUpdateDto) ;
     public ScheduleUpdateDto toUpdateDto(Schedule schedule) ;
 }

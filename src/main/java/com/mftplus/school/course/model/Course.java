@@ -2,6 +2,7 @@ package com.mftplus.school.course.model;
 
 import com.mftplus.school.core.model.Student;
 import com.mftplus.school.core.model.Teacher;
+import com.mftplus.school.lesson.model.Lesson;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

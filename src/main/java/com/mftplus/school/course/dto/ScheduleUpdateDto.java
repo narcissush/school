@@ -23,6 +23,9 @@ import java.util.List;
 public class ScheduleUpdateDto {
     private Long id;
 
+    @NotNull(message = "استاد الزامی است")
+    private Long teacherId; // استاد مربوطه
+
     @NotNull(message = "شروع دوره الزامی است")
     private LocalDate startDate;
 
