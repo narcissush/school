@@ -40,11 +40,11 @@ public class User {
     @Column(length = 100)
     private String email;
 
-    @OneToOne(mappedBy = "user")
-    private Student student;
-
-    @OneToOne(mappedBy = "user")
-    private Teacher teacher;
+//    @OneToOne(mappedBy = "user")
+//    private Student student;
+//
+//    @OneToOne(mappedBy = "user")
+//    private Teacher teacher;
 
 
     @ManyToMany(fetch = FetchType.EAGER)
