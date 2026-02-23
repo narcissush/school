@@ -42,14 +42,14 @@ public class Schedule extends BaseEntity {
     @Column(name = "day_of_week")
     private List<DayOfWeek> daysOfWeek = new ArrayList<>();
 
-    // استاد مربوطه
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacher_id", nullable = false)
-    private Teacher teacher;
-
-    // کلاس اختصاص داده شده (اختیاری)
-    @OneToOne(mappedBy = "schedule")
+    @OneToOne
+    @JoinColumn(name = "course_id")
     private Course course;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher; // <--- این باید باشه
+
 
     // متد اعتبارسنجی زمان‌ها
     public void validateTimes() {

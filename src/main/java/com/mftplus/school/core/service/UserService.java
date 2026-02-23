@@ -4,10 +4,8 @@ import com.mftplus.school.core.dto.UserCreateDto;
 import com.mftplus.school.core.dto.UserDto;
 import com.mftplus.school.core.dto.UserUpdateDto;
 import com.mftplus.school.core.mapper.UserMapper;
-import com.mftplus.school.core.model.Person;
 import com.mftplus.school.core.model.Role;
 import com.mftplus.school.core.model.User;
-import com.mftplus.school.core.repository.PersonRepository;
 import com.mftplus.school.core.repository.RoleRepository;
 import com.mftplus.school.core.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +22,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final PersonRepository personRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
@@ -63,15 +57,12 @@ public class UserService {
         if (dto.getEmail() != null && !dto.getEmail().isBlank() && userRepository.existsByEmail(dto.getEmail())) {
             throw new IllegalArgumentException("ایمیل قبلاً استفاده شده است");
         }
+
         User user = userMapper.toEntity(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRoles(resolveRoles(dto.getRoleNames()));
-        if (dto.getPersonId() != null) {
-            Person person = personRepository.findById(dto.getPersonId())
-                    .orElseThrow(() -> new IllegalArgumentException("شخص یافت نشد"));
-            user.setPerson(person);
-        }
         user.setEnabled(dto.getEnabled() != null ? dto.getEnabled() : true);
+
         User saved = userRepository.save(user);
         return userMapper.toDto(saved);
     }
@@ -80,21 +71,21 @@ public class UserService {
     public UserDto update(Long id, UserUpdateDto dto) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("کاربر یافت نشد"));
+
         userMapper.updateEntityFromDto(dto, user);
+
         if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
             user.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
+
         if (dto.getRoleNames() != null) {
             user.setRoles(resolveRoles(dto.getRoleNames()));
         }
-        if (dto.getPersonId() != null) {
-            Person person = personRepository.findById(dto.getPersonId())
-                    .orElseThrow(() -> new IllegalArgumentException("شخص یافت نشد"));
-            user.setPerson(person);
-        }
+
         if (dto.getEnabled() != null) {
             user.setEnabled(dto.getEnabled());
         }
+
         User saved = userRepository.save(user);
         return userMapper.toDto(saved);
     }

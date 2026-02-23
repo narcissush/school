@@ -47,7 +47,9 @@ public class Role {
     public enum RoleType {
         ADMIN,
         USER,
-        MANAGER
+        MANAGER,
+        TEACHER,
+        STUDENT
     }
 }
 

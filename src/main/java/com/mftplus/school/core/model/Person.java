@@ -56,8 +56,6 @@ public abstract class Person {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
-    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
-    private User user;
 
 
     @Column(nullable = false)

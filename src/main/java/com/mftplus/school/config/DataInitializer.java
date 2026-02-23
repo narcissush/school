@@ -20,7 +20,6 @@ public class DataInitializer implements CommandLineRunner {
     private final PermissionRepository permissionRepository;
     private final UserRepository userRepository;
     private final DepartmentRepository departmentRepository;
-    private final PersonRepository personRepository;
     private final PasswordEncoder passwordEncoder;
     
     @Override

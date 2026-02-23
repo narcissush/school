@@ -20,12 +20,18 @@ import java.util.List;
 @AllArgsConstructor
 public class Student extends Person {
 
+
+
     @NotBlank(message = "شماره دانشجویی الزامی است")
     @Size(max = 20, message = "شماره دانشجویی نمی‌تواند بیشتر از 20 کاراکتر باشد")
     @Column(unique = true, length = 20)
     private String studentNumber;
 
-    @OneToMany(mappedBy = "student")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToMany(mappedBy = "students")
     private List<Course> courseList = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "student")

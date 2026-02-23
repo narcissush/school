@@ -40,9 +40,12 @@ public class User {
     @Column(length = 100)
     private String email;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_id", unique = true)
-    private Person person;
+    @OneToOne(mappedBy = "user")
+    private Student student;
+
+    @OneToOne(mappedBy = "user")
+    private Teacher teacher;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

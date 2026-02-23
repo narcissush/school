@@ -12,6 +12,7 @@ import com.mftplus.school.course.model.Course;
 import com.mftplus.school.course.model.Schedule;
 import com.mftplus.school.course.repository.CourseRepository;
 import com.mftplus.school.course.repository.ScheduleRepository;
+import com.mftplus.school.lesson.repository.LessonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

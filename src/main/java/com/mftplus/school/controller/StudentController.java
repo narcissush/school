@@ -2,6 +2,7 @@ package com.mftplus.school.controller;
 
 import com.mftplus.school.core.dto.StudentCreateDto;
 import com.mftplus.school.core.dto.StudentUpdateDto;
+import com.mftplus.school.core.mapper.StudentMapper;
 import com.mftplus.school.core.model.Department;
 import com.mftplus.school.core.service.DepartmentService;
 import com.mftplus.school.core.service.StudentService;
@@ -22,33 +23,34 @@ public class StudentController {
 
     private final StudentService studentService;
     private final DepartmentService departmentService;
+    private final StudentMapper studentMapper;
 
+    // ---------------- لیست دانشجویان ----------------
     @GetMapping
     public String listStudents(Model model) {
-        List<StudentCreateDto> students = studentService.findAll();
+        List<StudentUpdateDto> students = studentService.findAll();
         model.addAttribute("students", students);
         model.addAttribute("title", "لیست دانشجویان");
         return "student/list";
     }
 
+    // ---------------- فرم ایجاد دانشجو ----------------
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("student", new StudentCreateDto());
-        List<Department> departments = departmentService.findAllActive();
-        model.addAttribute("departments", departments);
+        model.addAttribute("departments", departmentService.findAllActive());
         model.addAttribute("title", "افزودن دانشجو جدید");
         return "student/create";
     }
 
+    // ---------------- ذخیره دانشجوی جدید ----------------
     @PostMapping("/create")
     public String createStudent(@Valid @ModelAttribute("student") StudentCreateDto studentDto,
                                 BindingResult result,
                                 Model model,
                                 RedirectAttributes redirectAttributes) {
-
         if (result.hasErrors()) {
-            List<Department> departments = departmentService.findAllActive();
-            model.addAttribute("departments", departments);
+            model.addAttribute("departments", departmentService.findAllActive());
             return "student/create";
         }
 
@@ -58,21 +60,19 @@ public class StudentController {
             return "redirect:/students";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
-            List<Department> departments = departmentService.findAllActive();
-            model.addAttribute("departments", departments);
+            model.addAttribute("departments", departmentService.findAllActive());
             return "student/create";
         }
     }
 
+    // ---------------- فرم ویرایش دانشجو ----------------
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Long id,
-                               Model model,
+    public String showEditForm(@PathVariable Long id, Model model,
                                RedirectAttributes redirectAttributes) {
         try {
-            StudentCreateDto student = studentService.findById(id);
+            StudentUpdateDto student = studentService.findById(id);
             model.addAttribute("student", student);
-            List<Department> departments = departmentService.findAllActive();
-            model.addAttribute("departments", departments);
+            model.addAttribute("departments", departmentService.findAllActive());
             model.addAttribute("title", "ویرایش دانشجو");
             return "student/edit";
         } catch (Exception e) {
@@ -81,16 +81,15 @@ public class StudentController {
         }
     }
 
+    // ---------------- بروزرسانی دانشجو ----------------
     @PostMapping("/edit/{id}")
     public String updateStudent(@PathVariable Long id,
                                 @Valid @ModelAttribute("student") StudentUpdateDto studentDto,
                                 BindingResult result,
                                 Model model,
                                 RedirectAttributes redirectAttributes) {
-
         if (result.hasErrors()) {
-            List<Department> departments = departmentService.findAllActive();
-            model.addAttribute("departments", departments);
+            model.addAttribute("departments", departmentService.findAllActive());
             return "student/edit";
         }
 
@@ -100,12 +99,12 @@ public class StudentController {
             return "redirect:/students";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
-            List<Department> departments = departmentService.findAllActive();
-            model.addAttribute("departments", departments);
+            model.addAttribute("departments", departmentService.findAllActive());
             return "student/edit";
         }
     }
 
+    // ---------------- حذف دانشجو ----------------
     @GetMapping("/delete/{id}")
     public String deleteStudent(@PathVariable Long id,
                                 RedirectAttributes redirectAttributes) {
@@ -118,12 +117,13 @@ public class StudentController {
         return "redirect:/students";
     }
 
+    // ---------------- مشاهده جزئیات دانشجو ----------------
     @GetMapping("/view/{id}")
     public String viewStudent(@PathVariable Long id,
                               Model model,
                               RedirectAttributes redirectAttributes) {
         try {
-            StudentCreateDto student = studentService.findById(id);
+            StudentUpdateDto student = studentService.findById(id);
             model.addAttribute("student", student);
             model.addAttribute("title", "مشاهده دانشجو");
             return "student/view";
