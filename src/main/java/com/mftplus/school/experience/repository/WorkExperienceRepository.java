@@ -4,6 +4,7 @@ import com.mftplus.school.experience.model.WorkExperience;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -25,10 +26,11 @@ public interface WorkExperienceRepository extends JpaRepository<WorkExperience, 
     )
     Page<WorkExperience> findAllEvenDeleted(Pageable pageable);
 
+    @Modifying
     @Query(
             value = "UPDATE work_experiences SET deleted=false WHERE id=:id",
             nativeQuery = true
     )
-    void restorById(@Param("id") Long id);
+    void restoreById(@Param("id") Long id);
 
 }

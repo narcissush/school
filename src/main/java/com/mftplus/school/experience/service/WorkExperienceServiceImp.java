@@ -49,7 +49,7 @@ public class WorkExperienceServiceImp implements WorkExperienceService {
     @Transactional
     @Override
     public void restoreById(Long id) {
-        workExperienceRepository.restorById(id);
+        workExperienceRepository.restoreById(id);
     }
 
     @Override
