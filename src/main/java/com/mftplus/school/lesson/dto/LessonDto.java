@@ -1,5 +1,6 @@
 package com.mftplus.school.lesson.dto;
 
+import com.mftplus.school.core.model.Teacher;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Max;
@@ -23,8 +24,9 @@ public class LessonDto {
     @Pattern(regexp = "^[a-zA-Z\\s]{3,20}$", message = "Invalid Name")
     @Column(name = "name", nullable = false, length = 20)
     private String name;
-    //    @Pattern(regexp = "^[a-zA-Z\\s]{3,20}$", message = "Invalid Teacher")
-    //  private List<Teacher> teacher;
+
+    private Teacher teacher;
+
     @Min(value = 1, message = "unit must be at least 1")
     @Max(value = 5, message = "unit must be at least 5")
     private int unit;
