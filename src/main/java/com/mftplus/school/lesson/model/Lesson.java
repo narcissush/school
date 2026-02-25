@@ -36,8 +36,7 @@ public class Lesson {
     @Column(name = "name", nullable = false, length = 20)
     private String name;
 
-    @Pattern(regexp = "^[a-zA-Z\\s]{3,20}$", message = "Invalid Teacher")
-    @Column(name = "teacher", nullable = false, length = 20)
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
