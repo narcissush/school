@@ -39,8 +39,8 @@ public class Teacher extends Person {
 //    )
 //    private List<Skill> skillList = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "teacher")
-//    private List<Lesson> lessonList = new ArrayList<>();
+   @OneToMany(mappedBy = "teacher")
+   private List<Lesson> lessonList = new ArrayList<>();
 
     @OneToMany(mappedBy = "teacher")
     private List<Course> courseList = new ArrayList<>();
