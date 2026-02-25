@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fa" dir="rtl">
+<body>
+
+<div th:fragment="content">
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <i class="bi bi-person-badge"></i>
+            لیست اساتید
+        </div>
+
+        <div class="card-body">
+
+            <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+            <a th:href="@{/teachers/create}" class="btn btn-success mb-3">
+                <i class="bi bi-plus-circle"></i> ثبت استاد جدید
+            </a>
+
+            <table class="table table-bordered table-striped">
+                <thead class="table-light">
+                <tr>
+                    <th>شماره</th>
+                    <th>نام</th>
+                    <th>نام خانوادگی</th>
+                    <th>کد ملی</th>
+                    <th>شماره استاد</th>
+                    <th>ایمیل</th>
+                    <th>موبایل</th>
+                    <th>دپارتمان</th>
+                    <th>فعال</th>
+                    <th>عملیات</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="teacher, iterStat : ${teachers}">
+                    <td th:text="${iterStat.index + 1}"></td>
+                    <td th:text="${teacher.firstName}"></td>
+                    <td th:text="${teacher.lastName}"></td>
+                    <td th:text="${teacher.nationalCode}"></td>
+                    <td th:text="${teacher.teacherNumber}"></td>
+                    <td th:text="${teacher.email}"></td>
+                    <td th:text="${teacher.mobile}"></td>
+                    <td >1</td>
+                    <td>
+                        <span th:text="${teacher.active ? 'بله' : 'خیر'}"></span>
+                    </td>
+                    <td>
+                        <a th:href="@{/teachers/view/{id}(id=${teacher.id})}" class="btn btn-sm btn-info">مشاهده</a>
+                        <a th:href="@{/teachers/edit/{id}(id=${teacher.id})}" class="btn btn-sm btn-warning">ویرایش</a>
+                        <a th:href="@{/teachers/delete/{id}(id=${teacher.id})}"
+                           class="btn btn-sm btn-danger"
+                           onclick="return confirm('آیا مطمئن هستید؟');">
+                            حذف
+                        </a>
+                    </td>
+                </tr>
+                <tr th:if="${teachers.size() == 0}">
+                    <td colspan="10" class="text-center">استادی یافت نشد</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <nav th:if="${totalPages > 1}" aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/teachers(page=${currentPage-1}, size=${#request.getParameter('size')})}">
+                            قبلی
+                        </a>
+                    </li>
+
+                    <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages-1)}"
+                        th:classappend="${i == currentPage} ? 'active'">
+                        <a class="page-link"
+                           th:href="@{/teachers(page=${i}, size=${#request.getParameter('size')})}"
+                           th:text="${i + 1}"></a>
+                    </li>
+
+                    <li class="page-item" th:classappend="${currentPage == totalPages-1} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/teachers(page=${currentPage+1}, size=${#request.getParameter('size')})}">
+                            بعدی
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

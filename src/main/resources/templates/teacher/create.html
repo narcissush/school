@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="content">
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <i class="bi bi-person-plus"></i>
+            ثبت استاد جدید
+        </div>
+
+        <div class="card-body">
+
+            <form th:action="@{/teachers/create}" th:object="${teacher}" method="post">
+
+                <div class="row g-3">
+
+                    <!-- نام -->
+                    <div class="col-md-6">
+                        <label class="form-label">نام</label>
+                        <input type="text" class="form-control" th:field="*{firstName}">
+                        <div class="text-danger" th:errors="*{firstName}"></div>
+                    </div>
+
+                    <!-- نام خانوادگی -->
+                    <div class="col-md-6">
+                        <label class="form-label">نام خانوادگی</label>
+                        <input type="text" class="form-control" th:field="*{lastName}">
+                        <div class="text-danger" th:errors="*{lastName}"></div>
+                    </div>
+
+                    <!-- کد ملی -->
+                    <div class="col-md-6">
+                        <label class="form-label">کد ملی</label>
+                        <input type="text" class="form-control" th:field="*{nationalCode}">
+                        <div class="text-danger" th:errors="*{nationalCode}"></div>
+                    </div>
+
+                    <!-- شماره استاد -->
+                    <div class="col-md-6">
+                        <label class="form-label">شماره استاد</label>
+                        <input type="text" class="form-control" th:field="*{teacherNumber}">
+                        <div class="text-danger" th:errors="*{teacherNumber}"></div>
+                    </div>
+
+                    <!-- ایمیل -->
+                    <div class="col-md-6">
+                        <label class="form-label">ایمیل</label>
+                        <input type="email" class="form-control" th:field="*{email}">
+                        <div class="text-danger" th:errors="*{email}"></div>
+                    </div>
+
+                    <!-- موبایل -->
+                    <div class="col-md-6">
+                        <label class="form-label">موبایل</label>
+                        <input type="text" class="form-control" th:field="*{mobile}">
+                        <div class="text-danger" th:errors="*{mobile}"></div>
+                    </div>
+
+                    <!-- دپارتمان -->
+                    <div class="col-md-6">
+                        <select class="form-select"
+                                th:field="*{departmentId}">
+                            <option value="">انتخاب دپارتمان</option>
+                            <option th:each="dept : ${departments}"
+                                    th:value="${dept.id}"
+                                    th:text="${dept.name}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- مهارت‌ها (چند انتخابی) -->
+<!--                    <div class="col-md-6">-->
+<!--                        <label class="form-label">مهارت‌ها</label>-->
+<!--                        <select multiple class="form-select" th:field="*{skillIds}">-->
+<!--                            <option th:each="skill : ${skills}" th:value="${skill.id}" th:text="${skill.name}"></option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+
+<!--                    &lt;!&ndash; تجربه‌ها (چند انتخابی) &ndash;&gt;-->
+<!--                    <div class="col-md-6">-->
+<!--                        <label class="form-label">تجربه‌ها</label>-->
+<!--                        <select multiple class="form-select" th:field="*{experienceIds}">-->
+<!--                            <option th:each="exp : ${experiences}" th:value="${exp.id}" th:text="${exp.name}"></option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+
+                    <!-- وضعیت فعال -->
+                    <div class="col-md-6 d-flex align-items-center mt-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" th:field="*{active}">
+                            <label class="form-check-label">فعال</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-check-circle"></i> ذخیره استاد
+                </button>
+
+                <a th:href="@{/teachers}" class="btn btn-secondary">
+                    بازگشت
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

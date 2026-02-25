@@ -2,19 +2,18 @@ package com.mftplus.school.controller;
 
 import com.mftplus.school.core.dto.TeacherCreateDto;
 import com.mftplus.school.core.dto.TeacherUpdateDto;
-import com.mftplus.school.core.mapper.TeacherMapper;
-import com.mftplus.school.core.model.Department;
 import com.mftplus.school.core.service.DepartmentService;
 import com.mftplus.school.core.service.TeacherService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/teachers")
@@ -23,15 +22,27 @@ public class TeacherController {
 
     private final TeacherService teacherService;
     private final DepartmentService departmentService;
-    private final TeacherMapper teacherMapper;
+    // private final SkillService skillService; // برای بعد
+    // private final ExperienceService experienceService; // برای بعد
 
     // ---------------- لیست اساتید ----------------
     @GetMapping
-    public String listTeachers(Model model) {
-        List<TeacherUpdateDto> teachers = teacherService.findAll();
-        model.addAttribute("teachers", teachers);
+    public String listTeachers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            Model model) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<TeacherUpdateDto> teacherPage = teacherService.findAll(pageable);
+
+        model.addAttribute("teachers", teacherPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", teacherPage.getTotalPages());
+        model.addAttribute("totalItems", teacherPage.getTotalElements());
+
         model.addAttribute("title", "لیست اساتید");
-        return "teacher/new-teacher";
+        model.addAttribute("content", "teacher/list");
+        return "layout";
     }
 
     // ---------------- فرم ایجاد استاد ----------------
@@ -39,8 +50,11 @@ public class TeacherController {
     public String showCreateForm(Model model) {
         model.addAttribute("teacher", new TeacherCreateDto());
         model.addAttribute("departments", departmentService.findAllActive());
+        // model.addAttribute("skills", skillService.findAll());
+        // model.addAttribute("experiences", experienceService.findAll());
         model.addAttribute("title", "افزودن استاد جدید");
-        return "teacher/create";
+        model.addAttribute("content", "teacher/create");
+        return "layout";
     }
 
     // ---------------- ذخیره استاد جدید ----------------
@@ -49,9 +63,14 @@ public class TeacherController {
                                 BindingResult result,
                                 Model model,
                                 RedirectAttributes redirectAttributes) {
+
         if (result.hasErrors()) {
             model.addAttribute("departments", departmentService.findAllActive());
-            return "teacher/create";
+            // model.addAttribute("skills", skillService.findAll());
+            // model.addAttribute("experiences", experienceService.findAll());
+            model.addAttribute("title", "افزودن استاد جدید");
+            model.addAttribute("content", "teacher/create");
+            return "layout";
         }
 
         try {
@@ -61,20 +80,28 @@ public class TeacherController {
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             model.addAttribute("departments", departmentService.findAllActive());
-            return "teacher/create";
+            // model.addAttribute("skills", skillService.findAll());
+            // model.addAttribute("experiences", experienceService.findAll());
+            model.addAttribute("title", "افزودن استاد جدید");
+            model.addAttribute("content", "teacher/create");
+            return "layout";
         }
     }
 
     // ---------------- فرم ویرایش استاد ----------------
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Long id, Model model,
+    public String showEditForm(@PathVariable Long id,
+                               Model model,
                                RedirectAttributes redirectAttributes) {
         try {
             TeacherUpdateDto teacher = teacherService.findById(id);
             model.addAttribute("teacher", teacher);
             model.addAttribute("departments", departmentService.findAllActive());
+            // model.addAttribute("skills", skillService.findAll());
+            // model.addAttribute("experiences", experienceService.findAll());
             model.addAttribute("title", "ویرایش استاد");
-            return "teacher/edit";
+            model.addAttribute("content", "teacher/edit");
+            return "layout";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "استاد یافت نشد");
             return "redirect:/teachers";
@@ -88,9 +115,16 @@ public class TeacherController {
                                 BindingResult result,
                                 Model model,
                                 RedirectAttributes redirectAttributes) {
+
+        teacherDto.setId(id);
+
         if (result.hasErrors()) {
             model.addAttribute("departments", departmentService.findAllActive());
-            return "teacher/edit";
+            // model.addAttribute("skills", skillService.findAll());
+            // model.addAttribute("experiences", experienceService.findAll());
+            model.addAttribute("title", "ویرایش استاد");
+            model.addAttribute("content", "teacher/edit");
+            return "layout";
         }
 
         try {
@@ -100,7 +134,11 @@ public class TeacherController {
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             model.addAttribute("departments", departmentService.findAllActive());
-            return "teacher/edit";
+            // model.addAttribute("skills", skillService.findAll());
+            // model.addAttribute("experiences", experienceService.findAll());
+            model.addAttribute("title", "ویرایش استاد");
+            model.addAttribute("content", "teacher/edit");
+            return "layout";
         }
     }
 
@@ -126,7 +164,8 @@ public class TeacherController {
             TeacherUpdateDto teacher = teacherService.findById(id);
             model.addAttribute("teacher", teacher);
             model.addAttribute("title", "مشاهده استاد");
-            return "teacher/view";
+            model.addAttribute("content", "teacher/view");
+            return "layout";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "استاد یافت نشد");
             return "redirect:/teachers";
