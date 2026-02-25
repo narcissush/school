@@ -2,51 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>داشبورد مدیریت</title>
+    <title>سیستم مدیریت مدرسه</title>
 
     <!-- Bootstrap RTL -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}">
 
+    <!-- CSS صحیح (نه /static) -->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
-<body>
+
+<body class="bg-light">
 
 <!-- Topbar -->
-<div class="topbar bg-dark text-white">
-    <nav class="navbar navbar-expand px-3 w-100">
-        <div class="container-fluid p-0 d-flex justify-content-between align-items-center">
+<nav class="navbar navbar-dark bg-dark px-3">
+    <span class="navbar-brand">🎓 سیستم مدیریت مدرسه</span>
 
-            <span class="navbar-brand text-white">
-                داشبورد مدرسه
-            </span>
-
-            <span class="small me-3" id="currentDate"></span>
-
-            <div class="dropdown">
-                <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                   href="#" data-bs-toggle="dropdown">
-
-                    <i class="bi bi-person-circle fs-4 ms-2"></i>
-                    <strong th:text="${#authentication.name}">کاربر</strong>
-                </a>
-
-                <ul class="dropdown-menu dropdown-menu-end text-end">
-                    <li><a class="dropdown-item" th:href="@{/profile}">پروفایل</a></li>
-                    <li><a class="dropdown-item" th:href="@{/change-password}">تغییر رمز</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-danger" th:href="@{/logout}">خروج</a></li>
-                </ul>
-            </div>
-
-        </div>
-    </nav>
-</div>
+    <div class="text-white">
+        <i class="bi bi-person-circle"></i>
+        <span th:text="${#authentication.name}">کاربر</span>
+        |
+        <a th:href="@{/logout}" class="text-danger text-decoration-none">خروج</a>
+    </div>
+</nav>
 
 <div class="d-flex">
 
     <!-- Sidebar -->
-    <div class="sidebar bg-light p-3" style="width:260px; min-height:100vh;">
+    <aside class="bg-white border-start p-3" style="width:270px; min-height:100vh;">
+
+        <h6 class="text-muted">منو اصلی</h6>
 
         <a th:href="@{/dashboard}" class="d-block mb-2">
             <i class="bi bi-speedometer2 ms-2"></i> داشبورد
@@ -54,68 +39,52 @@
 
         <hr>
 
-        <!-- کاربران -->
-        <a data-bs-toggle="collapse" href="#menuUsers">
-            <i class="bi bi-people ms-2"></i> کاربران و دسترسی
-        </a>
-        <div class="collapse submenu ps-3" id="menuUsers">
-            <a th:href="@{/users}" class="d-block">کاربران</a>
-            <a th:href="@{/roles}" class="d-block">نقش‌ها</a>
-            <a th:href="@{/permissions}" class="d-block">دسترسی‌ها</a>
+        <!-- دانشجویان -->
+        <div class="fw-bold mb-2">
+            <i class="bi bi-mortarboard ms-2"></i> مدیریت دانشجویان
         </div>
-
-        <hr>
-
-        <!-- استاد -->
-        <a data-bs-toggle="collapse" href="#menuTeacher">
-            <i class="bi bi-person-badge ms-2"></i> اساتید
-        </a>
-        <div class="collapse submenu ps-3" id="menuTeacher">
-            <a th:href="@{/teachers}" class="d-block">لیست اساتید</a>
-            <a th:href="@{/teachers/create}" class="d-block">ثبت استاد جدید</a>
-        </div>
-
-        <!-- دانشجو -->
-        <a data-bs-toggle="collapse" href="#menuStudent">
-            <i class="bi bi-mortarboard ms-2"></i> دانشجویان
-        </a>
-        <div class="collapse submenu ps-3" id="menuStudent">
-            <a th:href="@{/students}" class="d-block">لیست دانشجویان</a>
+        <div class="ps-3 mb-3">
             <a th:href="@{/students/create}" class="d-block">ثبت دانشجو</a>
+            <a th:href="@{/students}" class="d-block">لیست دانشجویان</a>
+        </div>
+
+        <!-- اساتید -->
+        <div class="fw-bold mb-2">
+            <i class="bi bi-person-badge ms-2"></i> مدیریت اساتید
+        </div>
+        <div class="ps-3 mb-3">
+            <a th:href="@{/teachers/create}" class="d-block">ثبت استاد</a>
+            <a th:href="@{/teachers}" class="d-block">لیست اساتید</a>
+            <a th:href="@{/skills/create}" class="d-block">ثبت مهارت</a>
+            <a th:href="@{/experiences/create}" class="d-block">ثبت سابقه</a>
         </div>
 
         <!-- دروس -->
-        <a data-bs-toggle="collapse" href="#menuCourse">
-            <i class="bi bi-book ms-2"></i> دروس
-        </a>
-        <div class="collapse submenu ps-3" id="menuCourse">
+        <div class="fw-bold mb-2">
+            <i class="bi bi-book ms-2"></i> مدیریت دروس
+        </div>
+        <div class="ps-3 mb-3">
+            <a th:href="@{/courses/create}" class="d-block">ثبت درس</a>
             <a th:href="@{/courses}" class="d-block">لیست دروس</a>
-            <a th:href="@{/courses/create}" class="d-block">ایجاد درس</a>
         </div>
 
-        <!-- مهارت و سابقه -->
-        <a data-bs-toggle="collapse" href="#menuSkill">
-            <i class="bi bi-award ms-2"></i> مهارت و سابقه اساتید
-        </a>
-        <div class="collapse submenu ps-3" id="menuSkill">
-            <a th:href="@{/skills}" class="d-block">مهارت‌ها</a>
-            <a th:href="@{/experiences}" class="d-block">سوابق</a>
+        <!-- ثبت‌نام -->
+        <div class="fw-bold mb-2">
+            <i class="bi bi-journal-check ms-2"></i> ثبت‌نام در کلاس
+        </div>
+        <div class="ps-3">
+            <a th:href="@{/enrollments/create}" class="d-block">ثبت‌نام جدید</a>
+            <a th:href="@{/enrollments}" class="d-block">لیست ثبت‌نام‌ها</a>
         </div>
 
-    </div>
+    </aside>
 
     <!-- Content -->
-    <main class="container-fluid p-4">
+    <main class="flex-grow-1 p-4">
         <div th:replace="${content} :: content"></div>
     </main>
-</div>
 
-<script>
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const date = new Date();
-    document.getElementById('currentDate').textContent =
-        new Intl.DateTimeFormat('fa-IR', options).format(date);
-</script>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

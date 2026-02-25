@@ -57,8 +57,12 @@ public class SecurityConfig {
                     .headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK)
                 )
                 .contentSecurityPolicy(csp -> csp
-                    .policyDirectives("default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';")
-                )
+                        .policyDirectives(
+                                "default-src 'self'; " +
+                                        "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; " +
+                                        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; " +
+                                        "font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com;"
+                        )                )
                 .frameOptions(frame -> frame.sameOrigin())
             )
             .authorizeHttpRequests(auth -> auth
