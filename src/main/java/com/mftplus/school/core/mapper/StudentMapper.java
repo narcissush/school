@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface StudentMapper {
     public Student toCreateEntity(StudentCreateDto studentCreateDto);
-    public StudentCreateDto toCreateDto(Student appointment) ;
+    public StudentCreateDto toCreateDto(Student student) ;
     public Student toUpdateEntity(StudentUpdateDto studentUpdateDto) ;
     public StudentUpdateDto toUpdateDto(Student student) ;
 

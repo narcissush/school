@@ -3,9 +3,13 @@ package com.mftplus.school.core.service;
 import com.mftplus.school.core.dto.StudentCreateDto;
 import com.mftplus.school.core.dto.StudentUpdateDto;
 import com.mftplus.school.core.mapper.StudentMapper;
+import com.mftplus.school.core.model.Department;
 import com.mftplus.school.core.model.Student;
+import com.mftplus.school.core.repository.DepartmentRepository;
 import com.mftplus.school.core.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,10 +22,19 @@ public class StudentServiceImp implements StudentService {
 
     private final StudentRepository studentRepository;
     private final StudentMapper studentMapper;
+    private final DepartmentRepository departmentRepository;
 
     @Override
     public StudentCreateDto create(StudentCreateDto dto) {
+
         Student student = studentMapper.toCreateEntity(dto);
+
+        // 🔥 خط حیاتی پروژه تو
+        Department department = departmentRepository.findById(dto.getDepartmentId())
+                .orElseThrow(() -> new RuntimeException("دپارتمان یافت نشد"));
+
+        student.setDepartment(department);
+
         Student savedStudent = studentRepository.save(student);
         return studentMapper.toCreateDto(savedStudent);
     }
@@ -52,11 +65,9 @@ public class StudentServiceImp implements StudentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<StudentUpdateDto> findAll() {
-        return studentRepository.findAll()
-                .stream()
-                .map(studentMapper::toUpdateDto)
-                .toList();
+    public Page<StudentUpdateDto> findAll(Pageable pageable) {
+        return studentRepository.findAll(pageable)
+                .map(studentMapper::toUpdateDto);
     }
 
     @Override
