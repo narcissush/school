@@ -29,8 +29,10 @@
                         <th>ایمیل</th>
                         <th>دپارتمان</th>
                         <th>عملیات</th>
+                        <th>لایسنس‌ها</th>
                     </tr>
                     </thead>
+
                     <tbody>
                     <tr th:each="student, stat : ${students}">
                         <td th:text="${stat.count}"></td>
@@ -38,7 +40,8 @@
                         <td th:text="${student.lastName}"></td>
                         <td th:text="${student.studentNumber}"></td>
                         <td th:text="${student.email}"></td>
-                        <td >1</td>
+                        <td>1</td>
+
                         <td>
                             <a th:href="@{/licenses(studentId=${student.id})}"
                                class="btn btn-secondary btn-sm">
@@ -56,15 +59,22 @@
                                 حذف
                             </a>
                         </td>
-                    </tr>
 
-                    <tr th:if="${#lists.isEmpty(students)}">
-                        <td colspan="7" class="text-muted">
-                            هیچ دانشجویی ثبت نشده است
+                        <td>
+                            <a th:href="@{/licenses(studentId=${student.id})}"
+                               class="btn btn-dark btn-sm">
+                                لایسنس‌ها
+                            </a>
                         </td>
                     </tr>
 
+                    <tr th:if="${#lists.isEmpty(students)}">
+                        <td colspan="8" class="text-muted">
+                            هیچ دانشجویی ثبت نشده است
+                        </td>
+                    </tr>
                     </tbody>
+
                 </table>
             </div>
 
