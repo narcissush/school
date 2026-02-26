@@ -1,6 +1,7 @@
 package com.mftplus.school.core.model;
 
 import com.mftplus.school.course.model.Course;
+import com.mftplus.school.license.model.CourseLicense;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -21,7 +22,6 @@ import java.util.List;
 public class Student extends Person {
 
 
-
     @NotBlank(message = "شماره دانشجویی الزامی است")
     @Size(max = 20, message = "شماره دانشجویی نمی‌تواند بیشتر از 20 کاراکتر باشد")
     @Column(unique = true, length = 20)
@@ -34,6 +34,6 @@ public class Student extends Person {
     @ManyToMany(mappedBy = "students")
     private List<Course> courseList = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "student")
-//    private List<License> licenseList = new ArrayList<>();
+    @OneToMany(mappedBy = "student")
+    private List<CourseLicense> licenseList = new ArrayList<>();
 }
