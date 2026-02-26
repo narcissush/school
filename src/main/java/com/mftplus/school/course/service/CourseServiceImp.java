@@ -46,16 +46,16 @@ public class CourseServiceImp implements CourseService {
             course.setStudents(students);
         }
 
-        // Set Lesson
-        if (dto.getLessonId() != null) {
-            course.setLesson(lessonRepository.findById(dto.getLessonId())
-                    .orElseThrow(() -> new ResourceNotFoundException("درس یافت نشد با id: " + dto.getLessonId())));
-        }
+//        // Set Lesson
+//        if (dto.getLessonId() != null) {
+//            course.setLesson(lessonRepository.findById(dto.getLessonId())
+//                    .orElseThrow(() -> new ResourceNotFoundException("درس یافت نشد با id: " + dto.getLessonId())));
+//        }
 
         // Set CourseSchedule
-        if (dto.getCourseScheduleId() != null) {
-            Schedule schedule = scheduleRepository.findById(dto.getCourseScheduleId())
-                    .orElseThrow(() -> new ResourceNotFoundException("زمان‌بندی یافت نشد با id: " + dto.getCourseScheduleId()));
+        if (dto.getScheduleId() != null) {
+            Schedule schedule = scheduleRepository.findById(dto.getScheduleId())
+                    .orElseThrow(() -> new ResourceNotFoundException("زمان‌بندی یافت نشد با id: " + dto.getScheduleId()));
             course.setSchedule(schedule);
             schedule.setCourse(course);
         }
@@ -87,16 +87,16 @@ public class CourseServiceImp implements CourseService {
             updatedEntity.setStudents(existing.getStudents());
         }
 
-        if (dto.getLessonId() != null) {
-            updatedEntity.setLesson(lessonRepository.findById(dto.getLessonId())
-                    .orElseThrow(() -> new ResourceNotFoundException("درس یافت نشد با id: " + dto.getLessonId())));
-        } else {
-            updatedEntity.setLesson(existing.getLesson());
-        }
+//        if (dto.getLessonId() != null) {
+//            updatedEntity.setLesson(lessonRepository.findById(dto.getLessonId())
+//                    .orElseThrow(() -> new ResourceNotFoundException("درس یافت نشد با id: " + dto.getLessonId())));
+//        } else {
+//            updatedEntity.setLesson(existing.getLesson());
+//        }
 
-        if (dto.getCourseScheduleId() != null) {
-            Schedule schedule = scheduleRepository.findById(dto.getCourseScheduleId())
-                    .orElseThrow(() -> new ResourceNotFoundException("زمان‌بندی یافت نشد با id: " + dto.getCourseScheduleId()));
+        if (dto.getScheduleId() != null) {
+            Schedule schedule = scheduleRepository.findById(dto.getScheduleId())
+                    .orElseThrow(() -> new ResourceNotFoundException("زمان‌بندی یافت نشد با id: " + dto.getScheduleId()));
             updatedEntity.setSchedule(schedule);
             schedule.setCourse(updatedEntity);
         } else {

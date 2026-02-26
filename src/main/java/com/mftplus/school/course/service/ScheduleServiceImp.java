@@ -1,5 +1,6 @@
 package com.mftplus.school.course.service;
 
+import com.mftplus.school.core.model.Teacher;
 import com.mftplus.school.core.repository.TeacherRepository;
 import com.mftplus.school.course.dto.ScheduleCreateDto;
 import com.mftplus.school.course.dto.ScheduleUpdateDto;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,7 +32,7 @@ public class ScheduleServiceImp implements ScheduleService {
         teacherRepository.findById(dto.getTeacherId())
                 .orElseThrow(() -> new ResourceNotFoundException("استاد یافت نشد با id: " + dto.getTeacherId()));
 
-        schedule.validateTimes(); // اعتبارسنجی زمان‌ها
+//        schedule.validateTimes(); // اعتبارسنجی زمان‌ها
 
         Schedule saved = scheduleRepository.save(schedule);
         return scheduleMapper.toCreateDto(saved);
@@ -81,12 +83,27 @@ public class ScheduleServiceImp implements ScheduleService {
         return scheduleRepository.existsById(id);
     }
 
-    @Override
-    @Transactional(readOnly = true)
     public List<ScheduleUpdateDto> findFreeSchedulesByTeacher(Long teacherId) {
-        return scheduleRepository.findByTeacherIdAndCourseIsNull(teacherId)
-                .stream()
-                .map(scheduleMapper::toUpdateDto)
-                .toList();
+        // 1. گرفتن همه Scheduleهای استاد
+        List<Schedule> schedules = scheduleRepository.findByTeacherId(teacherId);
+
+        List<ScheduleUpdateDto> freeSchedules = new ArrayList<>();
+
+        for (Schedule schedule : schedules) {
+            // اینجا فقط Scheduleهایی که به هیچ Course متصل نیستند رو آزاد فرض می‌کنیم
+            if (schedule.getCourse() == null) {
+                ScheduleUpdateDto dto = new ScheduleUpdateDto();
+                dto.setStartDate(schedule.getStartDate());
+                dto.setEndDate(schedule.getEndDate());
+                dto.setStartTime(schedule.getStartTime());
+                dto.setEndTime(schedule.getEndTime());
+                dto.setDaysOfWeek(schedule.getDaysOfWeek());
+                freeSchedules.add(dto);
+            }
+        }
+
+        return freeSchedules;
     }
+
+
 }

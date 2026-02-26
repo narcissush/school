@@ -20,4 +20,5 @@ public interface ScheduleService {
 
     List<ScheduleUpdateDto> findFreeSchedulesByTeacher(Long teacherId);
 
+
 }

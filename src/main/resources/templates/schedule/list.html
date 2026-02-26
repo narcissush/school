@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="content">
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <i class="bi bi-calendar3"></i> لیست زمان‌بندی‌ها
+            <a th:href="@{/schedules/create}" class="btn btn-success btn-sm float-end">
+                <i class="bi bi-plus-circle"></i> زمان‌بندی جدید
+            </a>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>استاد</th>
+                    <th>تاریخ شروع</th>
+                    <th>تاریخ پایان</th>
+                    <th>ساعت شروع</th>
+                    <th>ساعت پایان</th>
+                    <th>روزهای هفته</th>
+                    <th>عملیات</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="schedule : ${schedules}">
+                    <td th:text="${schedule.teacher.firstName + ' ' + schedule.teacher.lastName}"></td>
+                    <td th:text="${schedule.startDate}"></td>
+                    <td th:text="${schedule.endDate}"></td>
+                    <td th:text="${schedule.startTime}"></td>
+                    <td th:text="${schedule.endTime}"></td>
+                    <td th:text="${schedule.daysOfWeek}"></td>
+                    <td>
+                        <form th:action="@{'/schedules/' + ${schedule.id} + '/delete'}" method="post" style="display:inline">
+                            <button class="btn btn-danger btn-sm" type="submit">
+                                <i class="bi bi-trash"></i> حذف
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

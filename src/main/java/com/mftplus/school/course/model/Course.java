@@ -28,6 +28,12 @@ public class Course extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name="title")
+    private String title;
+
+    @Column(name="class_number")
+    private String classNumber;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
@@ -40,9 +46,9 @@ public class Course extends BaseEntity {
     )
     private List<Student> students = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lesson_id")
-    private Lesson lesson;
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "lesson_id")
+//    private Lesson lesson;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "course_schedule_id")

@@ -1,7 +1,6 @@
 package com.mftplus.school.course.model;
 
 import com.mftplus.school.core.model.Teacher;
-import com.mftplus.school.course.model.Course;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -27,8 +27,6 @@
                     <th>نام خانوادگی</th>
                     <th>کد ملی</th>
                     <th>شماره استاد</th>
-                    <th>ایمیل</th>
-                    <th>موبایل</th>
                     <th>دپارتمان</th>
                     <th>فعال</th>
                     <th>عملیات</th>
@@ -41,15 +39,16 @@
                     <td th:text="${teacher.lastName}"></td>
                     <td th:text="${teacher.nationalCode}"></td>
                     <td th:text="${teacher.teacherNumber}"></td>
-                    <td th:text="${teacher.email}"></td>
-                    <td th:text="${teacher.mobile}"></td>
+
                     <td >1</td>
                     <td>
                         <span th:text="${teacher.active ? 'بله' : 'خیر'}"></span>
                     </td>
                     <td>
-                        <a th:href="@{/teachers/view/{id}(id=${teacher.id})}" class="btn btn-sm btn-info">مشاهده</a>
-                        <a th:href="@{/teachers/edit/{id}(id=${teacher.id})}" class="btn btn-sm btn-warning">ویرایش</a>
+                        <a th:href="@{/teachers/view/{id}(id=${teacher.id})}" class="btn btn-sm btn-secondary">مشاهده</a>
+                        <a th:href="@{/teachers/edit/{id}(id=${teacher.id})}" class="btn btn-sm btn-secondary">ویرایش</a>
+                        <a th:href="@{/teachers/skill/{id}(id=${teacher.id})}" class="btn btn-sm btn-secondary">مهارت‌ها</a>
+                        <a th:href="@{/teachers/experience/{id}(id=${teacher.id})}" class="btn btn-sm btn-secondary">تجربه‌ها</a>
                         <a th:href="@{/teachers/delete/{id}(id=${teacher.id})}"
                            class="btn btn-sm btn-danger"
                            onclick="return confirm('آیا مطمئن هستید؟');">

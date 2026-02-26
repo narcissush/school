@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<div th:fragment="content">
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <i class="bi bi-calendar-plus"></i>
+            ثبت زمان‌بندی استاد
+        </div>
+
+        <div class="card-body">
+
+            <form th:action="@{/schedules/create}" th:object="${scheduleCreateDto}" method="post">
+
+                <div class="row g-3">
+
+                    <!-- انتخاب استاد -->
+                    <div class="col-md-6">
+                        <label class="form-label">استاد</label>
+                        <select class="form-select" th:field="*{teacherId}" required>
+                            <option value="">انتخاب استاد</option>
+                            <option th:each="teacher : ${teachers}"
+                                    th:value="${teacher.id}"
+                                    th:text="${teacher.firstName + ' ' + teacher.lastName}"></option>}">
+                            </option>
+                        </select>
+                        <div class="text-danger" th:errors="*{teacherId}"></div>
+                    </div>
+
+                    <!-- بازه تاریخ -->
+                    <div class="col-md-6">
+                        <label class="form-label">تاریخ شروع</label>
+                        <input type="date" class="form-control" th:field="*{startDate}" required/>
+                        <div class="text-danger" th:errors="*{startDate}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">تاریخ پایان</label>
+                        <input type="date" class="form-control" th:field="*{endDate}" required/>
+                        <div class="text-danger" th:errors="*{endDate}"></div>
+                    </div>
+
+                    <!-- روزهای هفته -->
+                    <div class="col-md-6">
+                        <label class="form-label">روزهای هفته</label>
+                        <select multiple class="form-select" th:field="*{daysOfWeek}" required>
+                            <option value="MONDAY">دوشنبه</option>
+                            <option value="TUESDAY">سه‌شنبه</option>
+                            <option value="WEDNESDAY">چهارشنبه</option>
+                            <option value="THURSDAY">پنج‌شنبه</option>
+                            <option value="FRIDAY">جمعه</option>
+                            <option value="SATURDAY">شنبه</option>
+                            <option value="SUNDAY">یکشنبه</option>
+                        </select>
+                        <div class="text-danger" th:errors="*{daysOfWeek}"></div>
+                    </div>
+
+                    <!-- بازه ساعت -->
+                    <div class="col-md-6">
+                        <label class="form-label">ساعت شروع</label>
+                        <input type="time" class="form-control" th:field="*{startTime}" required/>
+                        <div class="text-danger" th:errors="*{startTime}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">ساعت پایان</label>
+                        <input type="time" class="form-control" th:field="*{endTime}" required/>
+                        <div class="text-danger" th:errors="*{endTime}"></div>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-check-circle"></i> ذخیره زمان‌بندی
+                </button>
+
+                <a th:href="@{/schedules}" class="btn btn-secondary">
+                    بازگشت
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

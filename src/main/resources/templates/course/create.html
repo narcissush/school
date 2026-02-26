@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="content">
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <i class="bi bi-book"></i>
+            ایجاد دوره جدید
+        </div>
+
+        <div class="card-body">
+
+            <form th:action="@{/courses}" th:object="${courseCreateDto}" method="post">
+
+                <div class="row g-3">
+
+                    <!-- نام دوره -->
+                    <div class="col-md-6">
+                        <label class="form-label">نام دوره</label>
+                        <input type="text" class="form-control" th:field="*{title}" placeholder="نام دوره" required/>
+                        <div class="text-danger" th:errors="*{title}"></div>
+                    </div>
+
+                    <!-- شماره کلاس -->
+                    <div class="col-md-6">
+                        <label class="form-label">شماره کلاس</label>
+                        <input type="text" class="form-control" th:field="*{classNumber}" placeholder="شماره کلاس" required/>
+                        <div class="text-danger" th:errors="*{classNumber}"></div>
+                    </div>
+
+                    <!-- استاد -->
+                    <div class="col-md-6">
+                        <label class="form-label">استاد</label>
+                        <select class="form-select" th:field="*{teacherId}" id="teacherSelect" required>
+                            <option value="">انتخاب استاد</option>
+                            <option th:each="teacher : ${teachers}"
+                                    th:value="${teacher.id}"
+                                    th:text="${teacher.firstName}"></option>
+                        </select>
+                        <div class="text-danger" th:errors="*{teacherId}"></div>
+                    </div>
+
+                    <!-- زمان آزاد استاد -->
+                    <div class="col-md-6">
+                        <label class="form-label">زمان‌های آزاد استاد</label>
+                        <select class="form-select" th:field="*{scheduleId}" id="freeScheduleSelect" required>
+                            <option value="">ابتدا استاد را انتخاب کنید</option>
+                        </select>
+                        <div class="text-danger" th:errors="*{scheduleId}"></div>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-check-circle"></i> ثبت دوره
+                </button>
+
+                <a th:href="@{/courses}" class="btn btn-secondary">
+                    بازگشت
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#teacherSelect').change(function() {
+                var teacherId = $(this).val();
+                if (!teacherId) {
+                    $('#freeScheduleSelect').html('<option value="">ابتدا استاد را انتخاب کنید</option>');
+                    return;
+                }
+
+                $.get('/courses/free-schedules/' + teacherId, function(data) {
+                    var options = '<option value="">انتخاب زمان آزاد</option>';
+                    data.forEach(function(s) {
+                        var days = s.daysOfWeek.join(', ');
+                        var text = days + ' ' + s.startTime + ' تا ' + s.endTime;
+                        options += '<option value="' + s.id + '">' + text + '</option>';
+                    });
+                    $('#freeScheduleSelect').html(options);
+                });
+            });
+        });
+    </script>
+
+</div>
+</body>
+</html>
